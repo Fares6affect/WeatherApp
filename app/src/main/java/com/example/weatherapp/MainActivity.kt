@@ -7,8 +7,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -60,24 +63,32 @@ class MainActivity : ComponentActivity() {
                             getData(it,this,dayList,currentDay)
                         })
                 getData("Krasnodar",this,dayList,currentDay)
-                Image(
-                    painter = painterResource(id = R.drawable.snowy_winter_background),
-                    contentDescription = "im1",
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .alpha(0.5f),
-                    contentScale = ContentScale.FillBounds
-                )
-                Column() {
-                    MainCard(
-                        currentDay,
-                        onClickSunc = {
-                            getData("Krasnodar", this@MainActivity, dayList, currentDay)
-                                      },
-                        onClickSearch = {
-                            dialogState.value = true
-                        })
-                    TabLayout(dayList,currentDay)
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)   // ← отступ от статус-бара и навигации
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.snowy_winter_background),
+                            contentDescription = "im1",
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .alpha(0.5f),
+                            contentScale = ContentScale.FillBounds
+                        )
+                        Column() {
+                            MainCard(
+                                currentDay,
+                                onClickSunc = {
+                                    getData("Krasnodar", this@MainActivity, dayList, currentDay)
+                                },
+                                onClickSearch = {
+                                    dialogState.value = true
+                                })
+                            TabLayout(dayList,currentDay)
+                        }
+                    }
                 }
             }
         }
